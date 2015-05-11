@@ -1,0 +1,104 @@
+\documentclass[letterpaper,12pt, oneside]{article}
+\usepackage[right=2.5cm,left=2.5cm,top=3.8cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}
+
+\usepackage[small, compact]{titlesec}
+\usepackage[Sonny]{fncychap}
+\usepackage{hanging}
+\usepackage{hyphenat}
+
+\usepackage[T1]{fontenc}
+((* for package in packages *))
+\usepackage{(((package)))}
+((* endfor *))
+\usepackage{microtype}
+
+\parskip 1pt %No more funny paragraph spacing shenanigans!
+
+\usepackage{fussycite}
+\usepackage{natbib}
+\setlength{\parindent}{0.5in}
+\setlength{\bibhang}{0.5in}
+
+%---- Improved Blockquote ----
+\newcommand\bquote[1]{
+    \begin{spacing}{1}
+        \begin{quote}
+            #1
+        \end{quote}
+    \end{spacing}
+}
+%---- /Blockquote ----
+
+%---- FLOAT COMMAND ----
+\newcommand{\float}[1]{
+    {\bf (FLOAT)\footnote{#1}}
+}
+%---- /FLOAT COMMAND ----
+
+%---- FancyHeader Called and Initialized ----
+\usepackage{fancyhdr}
+\setlength{\headheight}{15.2pt}
+\pagestyle{fancy}
+
+%---- Clear Default Layouts ----
+\fancyhead{}
+\fancyfoot{}
+%---- /Clear Default Layouts ----
+
+\fancyhead[C]{\small{\MakeUppercase{(((title)))}}}
+\fancyhead[R] {\small{\MakeUppercase{\thepage}}}
+%---- /FancyHeader Called and Initialized ----
+
+%----- TITLE PAGE INFORMATION -----
+((* if author *))
+\author{(((author)))}
+((* endif *))
+
+\title{(((title)))}
+
+((* if date *))
+\date{(((date)))}
+((* endif *))
+%----- /TITLE PAGE INFORMATION -----
+
+%---- CUSTOM HYPHENATIONS TO KEEP LINES REASONABLE ---
+\hyphenation{mac-gil-vray pro-gress name-ly de-wey-an de-wey mind-ed-ness found-at-ion-al-ism}
+%---- /CUSTOM HYPHENATIONS TO KEEP LINES REASONABLE ---
+
+\begin{document}
+
+\maketitle                              %Title Page
+
+\onehalfspace
+
+
+((* if abstract *))
+\begin{abstract}%   Need to Fix This Too
+\noindent {(((abstract)))}
+\end{abstract}
+((* endif *))
+
+((* if spacing *))
+(((spacing)))
+((* else *))
+\doublespace
+((* endif *))
+
+(((content)))
+
+((* if bibliography *))
+%-----Bibliography-----
+\section*{Bibliography}
+%
+\singlespace
+\begin{hangparas}{0.5in}{1}
+\end{hangparas}
+%
+\bibliographystyle{ChicagoReedweb-mod}
+\singlespace
+\bibliography{(((bibliography)))}
+%-----/BIBLIOGRAPHY-----
+((* endif *))
+
+\end{document}
