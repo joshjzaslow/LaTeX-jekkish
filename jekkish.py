@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import __builtin__
 import sys, os
 from os.path import join, exists, getmtime
 from os.path import expanduser
@@ -60,30 +61,38 @@ class YammTex():
         self.template_dir = self.home + '/.yammTeX'
         self.default_template = self.template_dir + '/default._tex'
 
-
     def load_variables(self, division_string="---\n"):
-        stream = open(self.target_file, 'r')
+        """ Converts the file to YAML and returns the parsed data.
+
+        Ignores any content above the YAML header (start_yaml),
+        Loads everything after the YAML as part of the 'content' variable """
+
+        try:
+            stream = open(self.target_file, 'r')
+        except (IOError):
+            print("File not found.")
+            exit()
+
 
         start_yaml = False
         end_yaml = False
         variables = ""
-        content = ""
+        content = "content: >"
 
         for line in stream:
             if str(line) == division_string:
-
                 if start_yaml:
                     end_yaml = True
                 else:
                     start_yaml = True
             else:
-                if start_yaml and not end_yaml:
-                    variables += line
-                else:
-                    content += "  " + line + "\n"
+                if start_yaml:
+                    if not end_yaml:
+                        variables += line
+                    else:
+                        content += "  " + line
 
-        variables += "content: > \n" + content
-
+        variables += content
         return yaml.load(variables)
 
     def make_file(self):
@@ -109,34 +118,30 @@ class YammTex():
         f.write(template.render(self.variables))
         f.close()
 
-        print "LaTeX file written"
-        print "---"
+        print("LaTeX file written\n---")
 
     def make_pdf(self):
-        print "Generating PDF"
-        print "---"
+        print("Generating PDF\n---")
         call(["pdflatex", "", self.output_file])
 
     def render(self):
-        self.make_file()
-        self.make_pdf()
+        # self.make_file()
+        # self.make_pdf()
+        pass
 
 
 def main(target_file, output_file="", watch=False):
     new_file = YammTex(target_file)
 
     if watch:
-        print "---"
-        print "Performing initial rendering"
-        print "---"
+        print("---\nPerforming initial rendering\n---")
+
         last_time = False
         while True:
             if last_time != os.stat(target_file).st_mtime:
                 last_time = os.stat(target_file).st_mtime
                 new_file.render()
-                print "---"
-                print "Watching {}".format(target_file)
-                print "---"
+                print("---\nWatching {}\n---").format(target_file)
     else:
         new_file.render()
 
@@ -145,7 +150,7 @@ def main(target_file, output_file="", watch=False):
 if __name__ == "__main__":
 
     if len(sys.argv) >= 2 and sys.argv[1] == "watch":
-        print "watch mode!"
+        print("watch mode!")
         if len(sys.argv) >= 3:
             target_file = sys.argv[2]
         else:
