@@ -51,15 +51,17 @@ class TeXLoader(BaseLoader):
         return source, path, lambda: mtime == getmtime(path)
 
 
-class YammTex():
+class Jekkish():
 
-    def __init__(self, target_file):
+    def __init__(self, target_file, output_file=False):
         self.target_file = target_file
-        self.output_file = target_file.replace('.yd', '.tex')
+        filename, ext = os.path.splitext(target_file)
+        self.temp_file = filename + '._' + ext[1:]
+        self.output_file = output_file
         self.variables = self.load_variables()
         self.home = expanduser("~")
-        self.template_dir = self.home + '/.yammTeX'
-        self.default_template = self.template_dir + '/default._tex'
+        self.template_dir = self.home + '/.jekkish'
+        self.default_template = self.template_dir + '/default.tex'
 
     def load_variables(self, division_string="---\n"):
         """ Converts the file to YAML and returns the parsed data.
