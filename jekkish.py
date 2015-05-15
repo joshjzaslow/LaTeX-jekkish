@@ -89,7 +89,10 @@ class YammTex():
                     if not end_yaml:
                         variables += line
                     else:
-                        content += "  " + line
+                        if line == "\n":
+                            content += "  {}".format(line)
+                        else:
+                            content += "  {}\n".format(line)
 
         variables += content
         return yaml.load(variables)
