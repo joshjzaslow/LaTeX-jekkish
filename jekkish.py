@@ -1,13 +1,10 @@
 #!/usr/bin/env python
-import __builtin__
 import sys, os
 from os.path import join, exists, getmtime
 from os.path import expanduser
 from subprocess import call
 import re
 import yaml
-
-import argparse
 
 from jinja2 import Environment
 from jinja2 import BaseLoader, TemplateNotFound
