@@ -43,8 +43,11 @@ class TeXLoader(BaseLoader):
         if not exists(path):
             raise TemplateNotFound(template)
         mtime = getmtime(path)
-        with file(path) as f:
-            source = f.read().decode('utf-8')
+        with open(path) as f:
+            if sys.version_info[0] < 3:
+                source = f.read().decode('utf-8')  # Python 2
+            else:
+                source = f.read()  # Python 3
         return source, path, lambda: mtime == getmtime(path)
 
 
