@@ -105,67 +105,78 @@ class YammTex():
         texenv.filters['escape_tex'] = escape_tex
 
         if self.variables["template"]:
-            template_file = self.template_dir + '/' + self.variables["template"] + '._tex'
+            template_file = self.template_dir + \
+                '/' + self.variables["template"] + '.tex'
         else:
-            template_file = default
+            template_file = self.template_dir + \
+                '/' + self.default
 
-        #6. Run through the template
         template = texenv.get_template(template_file)
-        # template = Template('Hello {{ name }}\n\n{{ content }}!')
 
-        f = open(self.output_file, "w")  #opens file with name of "test.txt"
+        f = open(self.temp_file, "w")
         f.write(template.render(self.variables))
         f.close()
 
-        print("LaTeX file written\n---")
+        print("Temporary LaTeX file created ({})\n---".format(self.temp_file))
 
     def make_pdf(self):
         print("Generating PDF\n---")
-        call(["pdflatex", "", self.output_file])
+        if self.output_file:
+            command = '-jobname={}'.format(self.output_file)
+            call(["pdflatex", command, self.temp_file])
+        else:
+            call(["pdflatex", self.temp_file])
 
     def render(self):
-        # self.make_file()
-        # self.make_pdf()
-        pass
+        self.make_file()
+        self.make_pdf()
 
 
-def main(target_file, output_file="", watch=False):
-    new_file = YammTex(target_file)
+def watch(target_file, output_file=False):
 
-    if watch:
-        print("---\nPerforming initial rendering\n---")
+    print("---\nJekkish running in watch mode\n")
 
-        last_time = False
-        while True:
-            if last_time != os.stat(target_file).st_mtime:
-                last_time = os.stat(target_file).st_mtime
-                new_file.render()
-                print("---\nWatching {}\n---").format(target_file)
+    if output_file:
+        new_file = Jekkish(target_file, output_file)
     else:
-        new_file.render()
+        new_file = Jekkish(target_file)
+
+    print("---\nPerforming initial rendering\n---")
+
+    last_time = False
+    while True:
+        if last_time != os.stat(target_file).st_mtime:
+            last_time = os.stat(target_file).st_mtime
+            new_file.render()
+            print("---\nWatching {}\n---").format(target_file)
 
 
-# This should be properly updated to use argparse
+def main(args):
+
+    if len(args) >= 1 and args[0] == "watch":
+        if len(args) >= 2:
+            target_file = args[1]
+            output_file = False
+        else:
+            raise Exception
+
+        if len(args) >= 3:
+            output_file = args[2]
+
+        watch(target_file, output_file)
+    else:
+        if len(args) >= 1:
+            target_file = args[0]
+            output_file = False
+        else:
+            raise Exception
+
+        if len(args) >= 2:
+            output_file = args[1]
+
+    new_file = Jekkish(target_file, output_file)
+    new_file.render()
+
+
 if __name__ == "__main__":
-
-    if len(sys.argv) >= 2 and sys.argv[1] == "watch":
-        print("watch mode!")
-        if len(sys.argv) >= 3:
-            target_file = sys.argv[2]
-        else:
-            raise Exception
-
-        if len(sys.argv) >= 4:
-            output_file = sys.argv[3]
-
-        main(target_file, watch=True)
-    else:
-        if len(sys.argv) >= 2:
-            target_file = sys.argv[1]
-        else:
-            raise Exception
-
-        if len(sys.argv) >= 3:
-            output_file = sys.argv[2]
-
-        main(target_file)
+    main(sys.argv[1:])
