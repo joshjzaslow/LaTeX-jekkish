@@ -73,7 +73,6 @@ class YammTex():
             print("File not found.")
             exit()
 
-
         start_yaml = False
         end_yaml = False
         variables = ""
