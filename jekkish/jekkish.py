@@ -126,6 +126,7 @@ def main():
     parser.add_argument('filename', type=argparse.FileType('r'), default=sys.stdin, help='The file to process')
     parser.add_argument('jobname', nargs="?", default=False, help='Job name for pdftex output')
     # parser.add_argument('--watch', action='store_const', const=True, help='Watch <filename> for changes')
+    parser.add_argument('--version', action='version', version='%(prog)s 0.1.7')
     args = parser.parse_args()
 
     new_file = Jekkish(args.filename, args.jobname)
