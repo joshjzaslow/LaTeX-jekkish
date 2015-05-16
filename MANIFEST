@@ -3,3 +3,4 @@ setup.cfg
 setup.py
 jekkish/__init__.py
 jekkish/jekkish.py
+jekkish/texhelpers.py
