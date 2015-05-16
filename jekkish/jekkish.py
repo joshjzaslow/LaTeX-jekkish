@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 import sys
 from os.path import expanduser, splitext
@@ -16,11 +16,11 @@ from texhelpers import escape_tex, TeXLoader
 
 class Jekkish():
 
-    def __init__(self, target_file, output_file=False):
+    def __init__(self, target_file, job_name=False):
         self.target_file = target_file
-        filename, ext = os.path.splitext(target_file)
+        filename, ext = splitext(self.target_file.name)
         self.temp_file = filename + '._' + ext[1:]
-        self.output_file = output_file
+        self.job_name = job_name if job_name else filename
         self.variables = self.load_variables()
         self.home = expanduser("~")
         self.template_dir = self.home + '/.jekkish'
@@ -32,18 +32,13 @@ class Jekkish():
         Ignores any content above the YAML header (start_yaml),
         Loads everything after the YAML as part of the 'content' variable """
 
-        try:
-            stream = open(self.target_file, 'r')
-        except (IOError):
-            print("File not found.")
-            exit()
-
         start_yaml = False
         end_yaml = False
         variables = ""
         content = "content: >"
 
-        for line in stream:
+        for line in self.target_file:
+
             if str(line) == division_string:
                 if start_yaml:
                     end_yaml = True
@@ -87,13 +82,20 @@ class Jekkish():
 
         print("Temporary LaTeX file created ({})\n---".format(self.temp_file))
 
-    def make_pdf(self):
+    def make_pdf(self, clean=True):
         print("Generating PDF\n---")
-        if self.output_file:
-            command = '-jobname={}'.format(self.output_file)
-            call(["pdflatex", command, self.temp_file])
-        else:
-            call(["pdflatex", self.temp_file])
+
+        command = 'pdflatex --jobname=' + self.job_name + ' ' + self.temp_file
+        check_call(command, shell=True)
+
+        if clean:
+            for ext in ['aux', 'log', 'out', 'ent']:
+                try:
+                    remove(self.job_name + '.' + ext)
+                except (OSError, IOError) as e:
+                    # Use FileNotFoundError when python 2 is dropped
+                    if e.errno != errno.ENOENT:
+                        raise
 
     def render(self):
         self.make_file()
@@ -120,17 +122,17 @@ def watch(target_file, output_file=False):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="Jekkish")
-    parser.add_argument('filename', help='The file to process')
-    parser.add_argument('output', nargs="?", default=False, help='Optional output file for pdftex')
+    parser = argparse.ArgumentParser(prog="Jekkish", description="A template-based pdftex CLI frontend inspired by Jekyll")
+    parser.add_argument('filename', type=argparse.FileType('r'), default=sys.stdin, help='The file to process')
+    parser.add_argument('jobname', nargs="?", default=False, help='Job name for pdftex output')
     # parser.add_argument('--watch', action='store_const', const=True, help='Watch <filename> for changes')
     args = parser.parse_args()
 
+    new_file = Jekkish(args.filename, args.jobname)
 
     # if args.watch:
-    #     watch(args.filename, args.output)
+    #     new_file.watch()
     # else:
-    new_file = Jekkish(args.filename, args.output)
     new_file.render()
 
 
