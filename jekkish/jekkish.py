@@ -1,10 +1,13 @@
 #!/usr/bin/env python
+__version__ = "0.1.4"
+
 import sys, os
 from os.path import join, exists, getmtime
 from os.path import expanduser
 from subprocess import call
 import re
 import yaml
+import argparse
 
 from jinja2 import Environment
 from jinja2 import BaseLoader, TemplateNotFound
@@ -153,35 +156,23 @@ def watch(target_file, output_file=False):
         if last_time != os.stat(target_file).st_mtime:
             last_time = os.stat(target_file).st_mtime
             new_file.render()
-            print("---\nWatching {}\n---").format(target_file)
+            print("---\nWatching {}\n---".format(target_file))
 
 
-def main(args):
+def main():
+    parser = argparse.ArgumentParser(prog="Jekkish")
+    parser.add_argument('filename', help='The file to process')
+    parser.add_argument('output', nargs="?", default=False, help='Optional output file for pdftex')
+    # parser.add_argument('--watch', action='store_const', const=True, help='Watch <filename> for changes')
+    args = parser.parse_args()
 
-    if len(args) >= 1 and args[0] == "watch":
-        if len(args) >= 2:
-            target_file = args[1]
-            output_file = False
-        else:
-            raise Exception
 
-        if len(args) >= 3:
-            output_file = args[2]
-
-        watch(target_file, output_file)
-    else:
-        if len(args) >= 1:
-            target_file = args[0]
-            output_file = False
-        else:
-            raise Exception
-
-        if len(args) >= 2:
-            output_file = args[1]
-
-    new_file = Jekkish(target_file, output_file)
+    # if args.watch:
+    #     watch(args.filename, args.output)
+    # else:
+    new_file = Jekkish(args.filename, args.output)
     new_file.render()
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
