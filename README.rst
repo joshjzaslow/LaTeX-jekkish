@@ -33,7 +33,7 @@ This package uses PyYAML, Jinja2. It assumes that pdftex is installed and includ
  There is a bare-bones template called "default" included in this package and can be used as a reference. Additional templates should be placed in ~/.jekkish/
 
 Sample document, conventions, and instructions
-==============================================
+-----------------------------------------------------------------
 
 Below is a sample document.
 
@@ -66,6 +66,14 @@ In the template, these files are essentially LaTeX files, but with some templati
 -   ((\* \*)) is used for template logic
 -   (((variable\_name))) is used for where variables will be rendered.
 -   ((= comments =)) are found between these characters
+
+Command Line
+----------------------
+A full list of options can be found by running ```jekkish --help```
+
+Basic use ```jekkish \<filename\> \<jobname\>```
+
+To run Jekkish in watch mode type the above with the optional tag ``--watch``
 
 License
 -------
