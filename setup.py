@@ -1,14 +1,11 @@
 from distutils.core import setup
 
-with open('README.rst') as f:
-    long_description = f.read()
-
 setup(
     name='jekkish',
-    version='0.2',
+    version='0.2.1.1',
 
     description='A CLI frontend for pdftex for easy templated LaTeX writing.',
-    long_description=long_description,
+    long_description=open('README.rst').read(),
 
     url='https://github.com/joshjzaslow/latex-jekkish',
     download_url='https://github.com/joshjzaslow/latex-jekkish/tarball/0.2',
