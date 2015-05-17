@@ -30,7 +30,7 @@ Dependencies.
 
 This package uses PyYAML, Jinja2. It assumes that pdftex is installed and included in the system path.
 
-I haven't included any templates in this package. These should be placed in ~/.jekkish/
+ There is a bare-bones template called "default" included in this package and can be used as a reference. Additional templates should be placed in ~/.jekkish/
 
 Sample document, conventions, and instructions
 ==============================================
@@ -40,7 +40,7 @@ Below is a sample document.
 ::
 
     ---
-    template: article
+    template: default
     title: I wrote a something
     subtitle: A tale of longing and desperation
     author: Gebralter Crowlin

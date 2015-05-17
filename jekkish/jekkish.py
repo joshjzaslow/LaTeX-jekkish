@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-__version__ = "0.1.8py3fix"
+__version__ = "0.2"
 
 import sys
 from os.path import expanduser, splitext, split
