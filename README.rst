@@ -30,7 +30,7 @@ Dependencies.
 
 This package uses PyYAML, Jinja2. It assumes that pdftex is installed and included in the system path.
 
- There is a bare-bones template called "default" included in this package and can be used as a reference. Additional templates should be placed in ~/.jekkish/
+There is a bare-bones template called "default" included in this package and can be used as a reference. Additional templates should be placed in ~/.jekkish/
 
 Sample document, conventions, and instructions
 -----------------------------------------------------------------
@@ -71,7 +71,9 @@ Command Line
 ----------------------
 A full list of options can be found by running ```jekkish --help```
 
-Basic use ```jekkish \<filename\> \<jobname\>```
+Basic use ```jekkish <filename>```
+
+An optional jobname can be added, e.g. ```jekkish <filename> <jobname>```
 
 To run Jekkish in watch mode type the above with the optional tag ``--watch``
 

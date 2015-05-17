@@ -2,6 +2,7 @@
 README.rst
 setup.py
 jekkish/__init__.py
+jekkish/default.tex
 jekkish/jekkish.py
 jekkish/tests.py
 jekkish/texhelpers.py

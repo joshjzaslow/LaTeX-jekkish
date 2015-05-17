@@ -1,8 +1,8 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='jekkish',
-    version='0.2.1.1',
+    version='0.2.0.2',
 
     description='A CLI frontend for pdftex for easy templated LaTeX writing.',
     long_description=open('README.rst').read(),
@@ -17,6 +17,7 @@ setup(
 
     license='MIT',
     packages=['jekkish'],
+    include_package_data=True,
 
     keywords=['LaTeX'],
 
