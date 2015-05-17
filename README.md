@@ -11,7 +11,7 @@ I intend to keep this compatible with both Python 2 and 3, but since it is in al
 Tested (thus far) on OSX.
 
 ## Installation
-This package is available on PyPI. To install, just type '''pip install jekkish''' in your terminal.
+This package is available on PyPI. To install, just type ```pip install jekkish``` in your terminal.
 
 If you use SublimeText, you can use place jekkish.sublime-build in your Sublime\ Packages/User.}
 
@@ -45,7 +45,8 @@ The only *reserved* variable names are <template> and <content>. Feel free to us
 * Everything above the YAML header will be ignored.
 * Everything below the YAML header will be rendered in the (((content))) tag.
 
-In the template, the These files are essentially LaTeX files, but with some templating logic.
+In the template, these files are essentially LaTeX files, but with some templating logic.
+
 * ((* *)) is used for template logic
 * (((variable_name))) is used for where variables will be rendered.
 * ((= comments =)) are found between these characters

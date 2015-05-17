@@ -63,12 +63,10 @@ The only *reserved* variable names are and . Feel free to use any others
 you find useful for your documents. The system uses Jinja2, so you are
 free to make templates as simple or complicated as you please.
 
--   assumes that .tex can be found in ~/.jekkish
--   should be placed in the mainmatter of your template as follows
-   \`\`\`(((content))).
--  Everything above the YAML header will be ignored.
--  Everything below the YAML header will be rendered in the
-   (((content))) tag.
+-   Assumes that .tex can be found in ~/.jekkish
+-   Should be placed in the mainmatter of your template as (((content))).
+-   Everything above the YAML header will be ignored.
+-   Everything below the YAML header will be rendered in the (((content))) tag.
 
 In the template, the These files are essentially LaTeX files, but with
 some templating logic.
