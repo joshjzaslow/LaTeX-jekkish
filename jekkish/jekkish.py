@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-__version__ = "0.1.8"
+__version__ = "0.1.8py3fix"
 
 import sys
 from os.path import expanduser, splitext, split
@@ -21,8 +21,6 @@ class Jekkish():
         fullpath, ext = splitext(self.target_file.name)
         path, filename = split(fullpath)
         self.temp_file = filename + '._' + ext[1:]
-
-        # print ext
         self.job_name = job_name if job_name else filename
         self.variables = self.load_variables()
         self.home = expanduser("~")
@@ -121,7 +119,7 @@ def main():
     parser.add_argument('filename', type=argparse.FileType('r'), default=sys.stdin, help='The file to process')
     parser.add_argument('jobname', nargs="?", default=False, help='Job name for pdftex output')
     # parser.add_argument('--watch', action='store_const', const=True, help='Watch <filename> for changes')
-    parser.add_argument('--version', action='version', version='%(prog)s 0.1.8')
+    parser.add_argument('--version', action='version', version='%(prog)s 0.1.8py3fix')
     args = parser.parse_args()
 
     new_file = Jekkish(args.filename, args.jobname)
