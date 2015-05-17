@@ -8,6 +8,7 @@ import errno
 from subprocess import check_call
 import yaml
 import argparse
+from time import sleep
 
 from jinja2 import Environment
 from texhelpers import escape_tex, TeXLoader
@@ -116,24 +117,51 @@ class Jekkish():
         while True:
             if last_time != stat(self.target_file.name).st_mtime:
                 last_time = stat(self.target_file.name).st_mtime
+                sleep(0.1)
+                self.target_file = open(self.target_file.name, 'r')
+                self.variables = self.load_variables()
+                self.make_file()
+                sleep(0.1)
                 self.render()
                 print("---\nWatching {}\n---".format(self.target_file.name))
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="Jekkish", description="A template-based pdftex CLI frontend inspired by Jekyll")
-    parser.add_argument('filename', type=argparse.FileType('r'), default=sys.stdin, help='The file to process')
-    parser.add_argument('jobname', nargs="?", default=False, help='Job name for pdftex output')
-    # parser.add_argument('--watch', action='store_const', const=True, help='Watch <filename> for changes')
-    parser.add_argument('--version', action='version', version='%(prog)s 0.1.8py3fix')
+    parser = argparse.ArgumentParser(
+        prog="Jekkish",
+        description="A template-based pdftex CLI frontend inspired by Jekyll"
+    )
+    parser.add_argument(
+        'filename',
+        type=argparse.FileType('r'),
+        default=sys.stdin,
+        help='The file to process'
+    )
+    parser.add_argument(
+        'jobname',
+        nargs="?",
+        default=False,
+        help='Job name for pdftex output'
+    )
+    parser.add_argument(
+        '--watch',
+        action='store_const',
+        const=True,
+        help='Watch <filename> for changes'
+    )
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 0.2'
+    )
     args = parser.parse_args()
 
     new_file = Jekkish(args.filename, args.jobname)
 
-    # if args.watch:
-    #     new_file.watch()
-    # else:
-    new_file.render()
+    if args.watch:
+        new_file.watch()
+    else:
+        new_file.render()
 
 
 if __name__ == "__main__":
