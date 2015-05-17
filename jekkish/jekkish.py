@@ -104,24 +104,16 @@ class Jekkish():
         self.make_file()
         self.make_pdf()
 
+    def watch(self):
+        print("---\nJekkish running in watch mode\n")
+        print("---\nPerforming initial rendering\n---")
 
-def watch(target_file, output_file=False):
-
-    print("---\nJekkish running in watch mode\n")
-
-    if output_file:
-        new_file = Jekkish(target_file, output_file)
-    else:
-        new_file = Jekkish(target_file)
-
-    print("---\nPerforming initial rendering\n---")
-
-    last_time = False
-    while True:
-        if last_time != os.stat(target_file).st_mtime:
-            last_time = os.stat(target_file).st_mtime
-            new_file.render()
-            print("---\nWatching {}\n---".format(target_file))
+        last_time = False
+        while True:
+            if last_time != stat(self.target_file.name).st_mtime:
+                last_time = stat(self.target_file.name).st_mtime
+                self.render()
+                print("---\nWatching {}\n---".format(self.target_file.name))
 
 
 def main():
