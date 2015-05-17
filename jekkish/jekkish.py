@@ -2,7 +2,7 @@
 __version__ = "0.2"
 
 import sys
-from os.path import expanduser, splitext, split
+from os.path import expanduser, splitext, split, exists, realpath, dirname, join
 from os import remove, stat
 import errno
 from subprocess import check_call
@@ -10,7 +10,6 @@ import yaml
 import argparse
 
 from jinja2 import Environment
-
 from texhelpers import escape_tex, TeXLoader
 
 
@@ -25,7 +24,7 @@ class Jekkish():
         self.variables = self.load_variables()
         self.home = expanduser("~")
         self.template_dir = self.home + '/.jekkish'
-        self.default_template = self.template_dir + '/default.tex'
+        self.default_template = 'default'
 
     def load_variables(self, division_string="---\n"):
         """ Converts the file to YAML and returns the parsed data.
@@ -39,7 +38,6 @@ class Jekkish():
         content = "content: >"
 
         for line in self.target_file:
-
             if str(line) == division_string:
                 if start_yaml:
                     end_yaml = True
@@ -68,12 +66,16 @@ class Jekkish():
         texenv.comment_end_string = '=))'
         texenv.filters['escape_tex'] = escape_tex
 
-        if self.variables["template"]:
-            template_file = self.template_dir + \
-                '/' + self.variables["template"] + '.tex'
-        else:
-            template_file = self.template_dir + \
-                '/' + self.default
+        if "template" not in self.variables:
+            self.variables["template"] = self.default_template
+
+        template_file = self.template_dir + \
+            '/' + self.variables["template"] + '.tex'
+
+        if not exists(template_file):
+            template_file = join(
+                dirname(realpath(__file__)),
+                self.variables["template"] + '.tex')
 
         template = texenv.get_template(template_file)
 
