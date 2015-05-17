@@ -25,6 +25,9 @@ class Jekkish():
         self.home = expanduser("~")
         self.template_dir = self.home + '/.jekkish'
         self.default_template = 'default'
+        self.command = 'pdflatex --jobname={} {}'.format(
+            self.job_name,
+            self.temp_file)
 
     def load_variables(self, division_string="---\n"):
         """ Converts the file to YAML and returns the parsed data.
@@ -86,10 +89,11 @@ class Jekkish():
         print("Temporary LaTeX file created ({})\n---".format(self.temp_file))
 
     def make_pdf(self, clean=True):
+        """ Calls pdftex and (optionally) removes temporary files """
+
         print("Generating PDF\n---")
 
-        command = 'pdflatex --jobname=' + self.job_name + ' ' + self.temp_file
-        check_call(command, shell=True)
+        check_call(self.command, shell=True)
 
         if clean:
             for ext in ['aux', 'log', 'out', 'ent']:
