@@ -21,7 +21,7 @@ Successfully run on OSX, Ubuntu, and Windows (cygwin).
 Installation
 -------------------------
 
-This package is available on PyPI. To install, just type ```pip install jekkish``` in your terminal.
+This package is available on PyPI. To install, just type ``pip install jekkish`` in your terminal.
 
 If you use SublimeText, you can use place jekkish.sublime-build in your Sublime Packages/User directory.
 
@@ -69,11 +69,11 @@ In the template, these files are essentially LaTeX files, but with some templati
 
 Command Line
 ----------------------
-A full list of options can be found by running ```jekkish --help```
+A full list of options can be found by running ``jekkish --help``
 
-Basic use ```jekkish <filename>```
+Basic use ``jekkish <filename>``
 
-An optional jobname can be added, e.g. ```jekkish <filename> <jobname>```
+An optional jobname can be added, e.g. ``jekkish <filename> <jobname>``
 
 To run Jekkish in watch mode type the above with the optional tag ``--watch``
 
