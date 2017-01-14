@@ -16,7 +16,7 @@ from texhelpers import escape_tex, TeXLoader
 
 class Jekkish():
 
-    def __init__(self, target_file, job_name=False):
+    def __init__(self, target_file, job_name=False, use_xelatex=False):
         self.target_file = target_file
         fullpath, ext = splitext(self.target_file.name)
         path, filename = split(fullpath)
@@ -25,10 +25,16 @@ class Jekkish():
         self.variables = self.load_variables()
         self.home = expanduser("~")
         self.template_dir = self.home + '/.jekkish'
-        self.default_template = 'default'
-        self.command = 'pdflatex --jobname={} {}'.format(
-            self.job_name,
-            self.temp_file)
+        if use_xelatex:
+            self.default_template = 'default-xe'
+            self.command = 'xelatex --jobname={} {}'.format(
+                self.job_name,
+                self.temp_file)
+        else:
+            self.default_template = 'default'
+            self.command = 'pdflatex --jobname={} {}'.format(
+                self.job_name,
+                self.temp_file)
 
     def load_variables(self, division_string="---\n"):
         """ Converts the file to YAML and returns the parsed data.
@@ -61,6 +67,7 @@ class Jekkish():
         return yaml.load(variables)
 
     def make_file(self):
+
         texenv = Environment(loader=TeXLoader(self.home))
         texenv.block_start_string = '((*'
         texenv.block_end_string = '*))'
@@ -146,8 +153,14 @@ def main():
     parser.add_argument(
         '--watch',
         action='store_const',
-        const=True,
+        const='watch',
         help='Watch <filename> for changes'
+    )
+    parser.add_argument(
+        '--xelatex',
+        action='store_const',
+        const=True,
+        help='Use xeLaTeX for rendering'
     )
     parser.add_argument(
         '--version',
@@ -155,8 +168,7 @@ def main():
         version='%(prog)s 0.2'
     )
     args = parser.parse_args()
-
-    new_file = Jekkish(args.filename, args.jobname)
+    new_file = Jekkish(args.filename, args.jobname, args.xelatex)
 
     if args.watch:
         new_file.watch()
