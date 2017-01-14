@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='jekkish',
-    version='0.3',
+    version='0.3.1',
 
     description='A CLI frontend for pdftex for easy templated LaTeX writing.',
     long_description=open('README.rst').read(),
