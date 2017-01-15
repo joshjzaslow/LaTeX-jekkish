@@ -2,13 +2,13 @@ from setuptools import setup
 
 setup(
     name='jekkish',
-    version='0.3.3',
+    version='0.3.3b',
 
     description='A CLI frontend for pdftex for easy templated LaTeX writing.',
     long_description=open('README.rst').read(),
 
     url='https://github.com/joshjzaslow/latex-jekkish',
-    download_url='https://github.com/joshjzaslow/latex-jekkish/tarball/0.3.3',
+    download_url='https://github.com/joshjzaslow/latex-jekkish/tarball/0.3.3b',
 
     author='Josh Zaslow',
     author_email='josh.zaslow@gmail.com',

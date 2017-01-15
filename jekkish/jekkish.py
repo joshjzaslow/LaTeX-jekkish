@@ -174,7 +174,7 @@ def main():
         version='%(prog)s {}'.format(__version__)
     )
     args = parser.parse_args()
-    new_file = Jekkish(args.filename, args.jobname, args.xelatex)
+    new_file = Jekkish(args.filename, args.jobname)
 
     if args.watch:
         new_file.watch()
