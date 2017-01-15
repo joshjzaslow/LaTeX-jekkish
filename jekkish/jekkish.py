@@ -1,8 +1,11 @@
-#!/usr/bin/env python
-__version__ = "0.2"
-
 import sys
-from os.path import expanduser, splitext, split, exists, realpath, dirname, join
+from os.path import expanduser
+from os.path import splitext
+from os.path import split
+from os.path import exists
+from os.path import realpath
+from os.path import dirname
+from os.path import join
 from os import remove, stat
 import errno
 from subprocess import check_call
@@ -12,6 +15,8 @@ from time import sleep
 
 from jinja2 import Environment
 from texhelpers import escape_tex, TeXLoader
+
+__version__ = "0.3.2"
 
 
 class Jekkish():
