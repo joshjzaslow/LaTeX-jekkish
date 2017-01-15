@@ -163,12 +163,6 @@ def main():
         help='Watch <filename> for changes'
     )
     parser.add_argument(
-        '--xelatex',
-        action='store_const',
-        const=True,
-        help='Use xeLaTeX for rendering'
-    )
-    parser.add_argument(
         '--version',
         action='version',
         version='%(prog)s {}'.format(__version__)
