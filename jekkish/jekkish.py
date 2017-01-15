@@ -14,7 +14,7 @@ import argparse
 from time import sleep
 
 from jinja2 import Environment
-from jekkish.texhelpers import escape_tex, TeXLoader
+from .texhelpers import escape_tex, TeXLoader
 
 __version__ = "0.3.2"
 
