@@ -7,7 +7,7 @@ Introduction
 
 Inspired by the writing workflow of Markdown + YAML used in Jekyll, I wanted a system that would allow me to do something similar for LaTeX files. More often than not, I reuse my LaTeX styles, and import a file of content in the {maincontent} environment. Hopefully you can find it useful too.
 
-This program takes files that look like the sample below (LaTeX content with YAML header), generates a full LaTeX file, and then compiles this with pdftex.
+This program takes files that look like the sample below (LaTeX content with YAML header), generates a full LaTeX file, and then compiles this with pdflatex or xelatex.
 
 Disclaimer
 ------------------------------
@@ -28,7 +28,7 @@ If you use SublimeText, you can use place jekkish.sublime-build in your SublimeÂ
 Dependencies.
 --------------------------
 
-This package uses PyYAML, Jinja2. It assumes that pdftex is installed and included in the system path.
+This package uses PyYAML, Jinja2. It assumes that pdflatex is installed and included in the system path.
 
 There is a bare-bones template called "default" included in this package and can be used as a reference. Additional templates should be placed in ~/.jekkish/
 
@@ -66,6 +66,8 @@ In the template, these files are essentially LaTeX files, but with some templati
 -   ((\* \*)) is used for template logic
 -   (((variable\_name))) is used for where variables will be rendered.
 -   ((= comments =)) are found between these characters
+
+As of version 0.3.3, an additional flag ``xelatex`` can be included in the YAML header. If detected, this flag will ensure that xelatex is used to compile the document, rather than pdftex. For conveniences' sake, an additional template is added to handle XeLaTeX. This document can handle two font-specific variables: ``serif`` and ``sans``.
 
 Command Line
 ----------------------
