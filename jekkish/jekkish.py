@@ -165,7 +165,7 @@ def main():
     parser.add_argument(
         '--version',
         action='version',
-        version='%(prog)s 0.2'
+        version='%(prog)s {}'.format(__version__)
     )
     args = parser.parse_args()
     new_file = Jekkish(args.filename, args.jobname, args.xelatex)
