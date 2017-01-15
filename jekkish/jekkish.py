@@ -32,8 +32,10 @@ class Jekkish():
         self.template_dir = self.home + '/.jekkish'
         if 'xelatex' in self.variables:
             self.engine = 'xelatex'
+            self.default_template = 'default-xe'
         else:
             self.engine = 'pdflatex'
+            self.default_template = 'default'
 
         self.command = '{} --jobname={} {}'.format(
             self.engine,
