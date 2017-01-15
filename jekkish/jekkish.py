@@ -21,7 +21,7 @@ __version__ = "0.3.2"
 
 class Jekkish():
 
-    def __init__(self, target_file, job_name=False, use_xelatex=False):
+    def __init__(self, target_file, job_name=False):
         self.target_file = target_file
         fullpath, ext = splitext(self.target_file.name)
         path, filename = split(fullpath)
@@ -30,16 +30,15 @@ class Jekkish():
         self.variables = self.load_variables()
         self.home = expanduser("~")
         self.template_dir = self.home + '/.jekkish'
-        if use_xelatex:
-            self.default_template = 'default-xe'
-            self.command = 'xelatex --jobname={} {}'.format(
-                self.job_name,
-                self.temp_file)
+        if 'xelatex' in self.variables:
+            self.engine = 'xelatex'
         else:
-            self.default_template = 'default'
-            self.command = 'pdflatex --jobname={} {}'.format(
-                self.job_name,
-                self.temp_file)
+            self.engine = 'pdflatex'
+
+        self.command = '{} --jobname={} {}'.format(
+            self.engine,
+            self.job_name,
+            self.temp_file)
 
     def load_variables(self, division_string="---\n"):
         """ Converts the file to YAML and returns the parsed data.
